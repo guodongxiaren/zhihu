@@ -9,7 +9,7 @@ if __name__ == '__main__':
         print('# %s\n' % main_topic)
         for id, name in sub_topics.items():
             url = 'https://www.zhihu.com/people/%s/creations/%s' % (user, id)
-            print('[`%s`](%s)' % (name, url))
+            print('[%s](%s)' % (name, url))
             #print('[`%s`][%s]' % (name, id))
             id_str = '[%s]: %s' % (id, url)
             id_list.append(id_str)
