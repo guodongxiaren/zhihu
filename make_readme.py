@@ -8,11 +8,15 @@ if __name__ == '__main__':
     for main_topic, sub_topics in topic_dict.items():
         print('# %s\n' % main_topic)
         for id, name in sub_topics.items():
-            print('[`%s`][%s]' % (name, id))
-            id_str = '[%s]: https://www.zhihu.com/people/%s/creations/%s' % (id, user, id)
+            url = 'https://www.zhihu.com/people/%s/creations/%s' % (user, id)
+            print('[`%s`](%s)' % (name, url))
+            #print('[`%s`][%s]' % (name, id))
+            id_str = '[%s]: %s' % (id, url)
             id_list.append(id_str)
+
+    """
 
     print('\n-----------')
     for id_str in id_list:
         print(id_str)
-
+    """
