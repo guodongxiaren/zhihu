@@ -4,6 +4,8 @@ import json
 from bs4 import BeautifulSoup
 import requests
 import sys
+import time
+import random
 def load_cookie(filename):
     with open(filename, 'r') as f:
         cookie = f.read().strip()
@@ -36,14 +38,23 @@ def get_all_top_author():
     top_author_dict = {}
     for main_topic, sub_topics in topic_dict.items():
         print('# %s\n' % main_topic)
-        for topic_id, topic_name in sub_topics.items():
+        topic_id_list = list(sub_topics.keys())
+        random.shuffle(topic_id_list)
+
+        #for topic_id, topic_name in sub_topics.items():
+        for topic_id in topic_id_list:
+            topic_name = sub_topics[topic_id]
+            #time.sleep(random.randint(1, 10))
+            sys.stderr.write('@begin %s \n' % topic_name)
+            sys.stderr.flush()
+            time.sleep(2)
             author_list = get_top_author(topic_id)
             if len(author_list) == 0:
                 continue
             top_author_dict[topic_name] = author_list
             print('## %s \n拥有 %d 位优秀回答者:' % (topic_name, len(author_list)))
             for author in author_list:
-                print('[%s](https://www.zhihu.com/people/%s)' % (author['name'], author['id']))
+                print('[`%s`](https://www.zhihu.com/people/%s)' % (author['name'], author['id']))
             sys.stdout.flush()
     return top_author_dict
 
