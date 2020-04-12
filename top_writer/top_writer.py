@@ -62,11 +62,12 @@ def get_all_top_author():
 if __name__ == '__main__':
     #author_list = get_top_author(19584970)
     #print(author_list)
+    print('--------')
+    print('# 总结')
     top_author_dict = get_all_top_author()
-    top_author_count = 0
+    author_set = set()
     for topic_name, author_list in top_author_dict.items():
-        #print('%s has %d author: %s' % (topic_name, len(author_list), ','.join(author_list)))
-        top_author_count += len(author_list)
+        author_set.update([author['id'] for author in author_list])
 
-    print('zhihu has %d top writer' % (top_author_count))
+    print('去重后，知乎共有 %d 位优秀回答者' % len(author_set))
 

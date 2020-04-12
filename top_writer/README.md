@@ -1566,4 +1566,6 @@
 [`圭多达莱佐`](https://www.zhihu.com/people/gui-duo-da-lai-zuo)
 # 投资
 
-zhihu has 769 top writer
+--------
+# 总结
+去重后，知乎共有 607 位优秀回答者
