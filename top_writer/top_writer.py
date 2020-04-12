@@ -52,7 +52,7 @@ def get_all_top_author():
             if len(author_list) == 0:
                 continue
             top_author_dict[topic_name] = author_list
-            print('## %s \n拥有 %d 位优秀回答者:' % (topic_name, len(author_list)))
+            print('## %s \n拥有 %d 位优秀回答者:\n' % (topic_name, len(author_list)))
             for author in author_list:
                 print('[`%s`](https://www.zhihu.com/people/%s)' % (author['name'], author['id']))
             sys.stdout.flush()
