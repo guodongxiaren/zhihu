@@ -28,12 +28,12 @@ def get_main_topic():
 
     return main_topic
 
-def get_sub_topic(main_topic_id, size=20):
+def get_sub_topic(main_topic_id):
+    size = 20
     url = 'https://www.zhihu.com/node/TopicsPlazzaListV2'
     offset = 0
     topic_list = {}
     while True:
-        offset += size
         data = {
             'method': 'next',
             'params': '{"topic_id":%d,"offset":%d,"hash_id":""}' % (main_topic_id, offset),
@@ -58,6 +58,7 @@ def get_sub_topic(main_topic_id, size=20):
                 topic_list[topic_id] = name
         if len(html_list) < size:
             break;
+        offset += size
     return topic_list
 
 def get_all_topic_list(main_topic=None):
@@ -74,7 +75,9 @@ def get_all_topic_list(main_topic=None):
 
 
 if __name__ == '__main__':
-    #topic_list = get_sub_topic(1761) # for test
+    #topic_list = get_sub_topic(4217) # for test
+    #print(topic_list)
+    #exit("")
     main_topic = get_main_topic()
     all_topic = get_all_topic_list(main_topic)
     json.dump(all_topic, open('../data/topic.json', 'w'), ensure_ascii=False, indent=4)
