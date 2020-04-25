@@ -1,2 +1,2 @@
 #!/bin/bash
-python top_writer.py |tee README.md
+python top_writer.py |tee .README.md

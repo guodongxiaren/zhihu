@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
+import datetime
 import json
 from bs4 import BeautifulSoup
+import random
 import requests
 import sys
 import time
-import random
 def load_cookie(filename):
     with open(filename, 'r') as f:
         cookie = f.read().strip()
@@ -37,9 +38,9 @@ def get_all_top_author():
     topic_dict = json.load(open('../data/topic.json', 'r'))
     top_author_dict = {}
     for main_topic, sub_topics in topic_dict.items():
-        print('# %s\n' % main_topic)
+        has_print_main_topic = False
         topic_id_list = list(sub_topics.keys())
-        random.shuffle(topic_id_list)
+        #random.shuffle(topic_id_list)
 
         #for topic_id, topic_name in sub_topics.items():
         for topic_id in topic_id_list:
@@ -51,6 +52,9 @@ def get_all_top_author():
             author_list = get_top_author(topic_id)
             if len(author_list) == 0:
                 continue
+            if not has_print_main_topic:
+                print('# %s(主话题)\n' % main_topic)
+                has_print_main_topic = True
             top_author_dict[topic_name] = author_list
             print('## %s \n拥有 %d 位优秀回答者:\n' % (topic_name, len(author_list)))
             for author in author_list:
@@ -67,7 +71,8 @@ if __name__ == '__main__':
     for topic_name, author_list in top_author_dict.items():
         author_set.update([author['id'] for author in author_list])
 
-    print('--------')
-
-    print('去重后，知乎共有 %d 位优秀回答者' % len(author_set))
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    with open('.header.md', 'w') as f:
+        f.write('--------\n')
+        f.write('截止 %s，知乎共有 %d 位优秀回答者\n' % (today, len(author_set)))
 
