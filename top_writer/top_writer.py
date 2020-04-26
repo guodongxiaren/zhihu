@@ -40,7 +40,7 @@ def get_all_top_author():
     for main_topic, sub_topics in topic_dict.items():
         has_print_main_topic = False
         topic_id_list = list(sub_topics.keys())
-        #random.shuffle(topic_id_list)
+        random.shuffle(topic_id_list)
 
         #for topic_id, topic_name in sub_topics.items():
         for topic_id in topic_id_list:
