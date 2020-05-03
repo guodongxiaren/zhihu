@@ -34,7 +34,10 @@ def get_top_author(topic_id):
        author_list.append(author)
     return author_list
 
-def get_all_top_author():
+def get_all_top_author_V0():
+    '''
+    获取优秀回答者，并输出。含主话题
+    '''
     topic_dict = json.load(open('../data/topic.json', 'r'))
     top_author_dict = {}
     for main_topic, sub_topics in topic_dict.items():
@@ -60,6 +63,37 @@ def get_all_top_author():
             for author in author_list:
                 print('[`%s`](https://www.zhihu.com/people/%s)' % (author['name'], author['id']))
             sys.stdout.flush()
+    return top_author_dict
+
+def get_all_top_author():
+    '''
+    获取优秀回答者，并输出。不含主话题
+    '''
+    topic_dict = json.load(open('../data/topic.json', 'r'))
+    top_author_dict = {}
+    topic_set = set()
+    for main_topic, sub_topics in topic_dict.items():
+        topic_id_list = list(sub_topics.keys())
+        random.shuffle(topic_id_list)
+
+        #for topic_id, topic_name in sub_topics.items():
+        for topic_id in topic_id_list:
+            if topic_id in topic_set:
+                continue
+            topic_name = sub_topics[topic_id]
+            #time.sleep(random.randint(1, 10))
+            sys.stderr.write('@begin %s \n' % topic_name)
+            sys.stderr.flush()
+            time.sleep(2)
+            author_list = get_top_author(topic_id)
+            if len(author_list) == 0:
+                continue
+            top_author_dict[topic_name] = author_list
+            print('## %s \n拥有 %d 位优秀回答者:\n' % (topic_name, len(author_list)))
+            for author in author_list:
+                print('[`%s`](https://www.zhihu.com/people/%s)' % (author['name'], author['id']))
+            sys.stdout.flush()
+            topic_set.add(topic_id)
     return top_author_dict
 
 
