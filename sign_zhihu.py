@@ -9,6 +9,7 @@ import sys
 import time
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from urllib import parse
 from PIL import Image, ImageEnhance
 import pytesseract
@@ -17,14 +18,24 @@ import json
 sys.path.append('/Users/jelly/github/zheye')
 from zheye import zheye
 
+from selenium.webdriver import Chrome, ChromeOptions
+options = ChromeOptions()
+
+options.add_experimental_option('excludeSwitches', ['enable-automation'])
+
 
 #browser = webdriver.PhantomJS()
 #browser = webdriver.Firefox()
-browser = webdriver.Chrome()
+#browser = webdriver.Chrome()
+browser = webdriver.Chrome(options=options)
 
 def ocr(img_path):
     #login = Image.open(img_path).convert('RGB')
     loginImg = Image.open(img_path).convert('RGB')
+    loginImg.show()
+    print('----')
+    print(pytesseract.image_to_string(loginImg))
+    print('----')
     """
     截取下来验证码图片，并且进行灰度转化，二值化处理
     """
@@ -134,9 +145,13 @@ def login():
     if is_en:
         ocr(pic_name)
 
+    print('click1')
     browser.find_element_by_class_name('SignFlow-submitButton').click()
     time.sleep(1)
+    print('click2')
     browser.find_element_by_class_name('SignFlow-submitButton').click()
+    print('click3')
+    browser.find_element_by_class_name('SignFlow-submitButton').send_keys(Keys.ENTER)
 
 def get_cookie():
     """从浏览器获取cookie

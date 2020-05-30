@@ -13,6 +13,7 @@ import time
 
 
 def get_main_topic():
+    """ 获取主话题 """
     url = 'https://www.zhihu.com/topics'
     origin_bytes = request.urlopen(url).read()
     origin_string = origin_bytes.decode('utf-8')
@@ -29,6 +30,7 @@ def get_main_topic():
     return main_topic
 
 def get_sub_topic(main_topic_id):
+    """ 获取子话题 """
     size = 20
     url = 'https://www.zhihu.com/node/TopicsPlazzaListV2'
     offset = 0
@@ -62,6 +64,7 @@ def get_sub_topic(main_topic_id):
     return topic_list
 
 def get_all_topic_list(main_topic=None):
+    """ 获取所有(子)话题 """
     if main_topic is None:
         main_topic = get_main_topic()
     all_topic_list = {}
