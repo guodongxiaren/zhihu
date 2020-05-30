@@ -7,32 +7,7 @@ import random
 import requests
 import sys
 import time
-def load_cookie(filename):
-    with open(filename, 'r') as f:
-        cookie = f.read().strip()
-    return cookie
-
-def get_top_author(topic_id):
-    url = 'https://www.zhihu.com/topic/%d/top-writer' % (int(topic_id))
-    header = {
-        'Cookie': load_cookie('../data/cookie.txt'),
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0',
-    }
-    resp = requests.get(url, headers=header)
-    html = resp.text
-    soup = BeautifulSoup(html, 'html.parser')
-    writer_list = soup.find_all('a', class_='zg-link')
-    author_list = []
-    for writer in writer_list:
-       href = writer['href']
-       id = href[len('/people/'):]
-       name = writer.text
-       author = {
-           'id': id,
-           'name': name
-       }
-       author_list.append(author)
-    return author_list
+from get_top_writer import get_top_writer
 
 def get_all_top_author_V0():
     '''
@@ -52,7 +27,7 @@ def get_all_top_author_V0():
             sys.stderr.write('@begin %s \n' % topic_name)
             sys.stderr.flush()
             time.sleep(2)
-            author_list = get_top_author(topic_id)
+            author_list = get_top_writer(topic_id)
             if len(author_list) == 0:
                 continue
             if not has_print_main_topic:
@@ -85,7 +60,7 @@ def get_all_top_author():
             sys.stderr.write('@begin %s \n' % topic_name)
             sys.stderr.flush()
             time.sleep(2)
-            author_list = get_top_author(topic_id)
+            author_list = get_top_writer(topic_id)
             if len(author_list) == 0:
                 continue
             top_author_dict[topic_name] = author_list
@@ -98,8 +73,6 @@ def get_all_top_author():
 
 
 if __name__ == '__main__':
-    #author_list = get_top_author(19584970)
-    #print(author_list)
     top_author_dict = get_all_top_author()
     author_set = set()
     for topic_name, author_list in top_author_dict.items():
